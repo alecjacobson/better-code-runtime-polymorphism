@@ -11,13 +11,24 @@ void draw(const my_class_t&, ostream& out, size_t position)
 { out << string(position, ' ') << "my_class_t" << endl; }
 
 int main() {
-  document_t document;
-  document.reserve(5);
+  history_t h(1);
+  current(h).emplace_back(0);
+  current(h).emplace_back(string("Hello!")); 
+  
+  draw(current(h), cout, 0);
+  cout << "--------------------------" << endl; 
 
-  document.emplace_back(0);
-  document.emplace_back(string("Hello!"));
-  document.emplace_back(document);
-  document.emplace_back(my_class_t());
+  commit(h);
 
-  draw(document, cout, 0); 
+  current(h)[0] = 42.5;
+  current(h)[1] = string("World");
+  current(h).emplace_back(current(h));
+  current(h).emplace_back(my_class_t());
+
+  draw(current(h), cout, 0);
+  cout << "--------------------------" << endl; 
+
+  undo(h);
+
+  draw(current(h), cout, 0);
 }

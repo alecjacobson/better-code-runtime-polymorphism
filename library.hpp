@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cassert>
 using namespace std;
 
 
@@ -15,7 +16,7 @@ class object_t {
     { }
 
     object_t(const object_t& x) : self_(x.self_->copy_())
-    { }
+    { cout<< "copy" << endl; }
     object_t(object_t&& x) noexcept = default;
 
     object_t& operator=(const object_t& x)
@@ -52,3 +53,9 @@ void draw(const document_t& x, ostream& out, size_t position)
     for (const auto& e: x) draw(e, out, position + 2);
     out << string(position, ' ') << "</document>" << endl;
 }
+
+using history_t = vector<document_t>;
+
+void commit(history_t& x){ assert(x.size()); x.push_back(x.back()); }
+void undo(history_t& x) { assert(x.size()); x.pop_back(); }
+document_t& current(history_t& x) { assert(x.size()); return x.back(); }
