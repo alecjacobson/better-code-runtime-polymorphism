@@ -13,6 +13,7 @@ class object_t {
     { cout << "ctor" << endl; }
     object_t(const object_t& x) : self_(make_unique<int_model_t>(*x.self_))
     { cout << "copy" << endl; }
+    object_t(object_t&& x) noexcept = default;
     object_t& operator=(object_t x) noexcept
     { self_ = move(x.self_); return *this; }
 
