@@ -14,7 +14,7 @@ class my_class_t final : public object_t
 int main() {
   document_t document;
 
-  document.emplace_back(new my_class_t());
+  document.emplace_back(make_shared<my_class_t>());
 
   draw(document, cout, 0); 
 }
