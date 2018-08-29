@@ -1,4 +1,4 @@
-//  clang++ -std=c++14 client.cpp -o client && ./client
+//  clang++ -std=c++11 client.cpp -o client && ./client
 #include "library.hpp"
 #include <iostream>
 using namespace std;
