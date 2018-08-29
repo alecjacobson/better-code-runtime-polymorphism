@@ -14,8 +14,10 @@ class object_t {
     object_t(const object_t& x) : self_(make_unique<int_model_t>(*x.self_))
     { cout << "copy" << endl; }
     object_t(object_t&& x) noexcept = default;
-    object_t& operator=(object_t x) noexcept
-    { self_ = move(x.self_); return *this; }
+
+    object_t& operator=(const object_t& x)
+    { return *this = object_t(x); }
+    object_t& operator=(object_t&&) noexcept = default;
 
     friend void draw(const object_t& x, ostream& out, size_t position)
     { x.self_->draw_(out, position); }
