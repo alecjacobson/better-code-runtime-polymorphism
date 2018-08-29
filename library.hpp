@@ -10,11 +10,11 @@ void draw(const int& x, ostream& out, size_t position)
 class object_t {
   public:
     object_t(const int& x) : self_(make_unique<int_model_t>(x))
-    { }
+    { cout << "ctor" << endl; }
     object_t(const object_t& x) : self_(make_unique<int_model_t>(*x.self_))
-    { }
-    object_t& operator=(const object_t& x)
-    { object_t tmp(x); self_ = move(tmp.self_); return *this; }
+    { cout << "copy" << endl; }
+    object_t& operator=(object_t x) noexcept
+    { self_ = move(x.self_); return *this; }
 
     friend void draw(const object_t& x, ostream& out, size_t position)
     { x.self_->draw_(out, position); }
