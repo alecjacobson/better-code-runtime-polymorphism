@@ -3,17 +3,15 @@
 #include <vector>
 using namespace std;
 
-void draw(const string& x, ostream& out, size_t position)
-{ out << string(position, ' ') << x << endl; }
 
-void draw(const int& x, ostream& out, size_t position)
+template <typename T>
+void draw(const T& x, ostream& out, size_t position)
 { out << string(position, ' ') << x << endl; }
 
 class object_t {
   public:
-    object_t(string x) : self_(make_unique<string_model_t>(move(x)))
-    { }
-    object_t(int x) : self_(make_unique<int_model_t>(move(x)))
+    template <typename T>
+    object_t(T x) : self_(make_unique<model<T>>(move(x)))
     { }
 
     object_t(const object_t& x) : self_(x.self_->copy_())
@@ -32,23 +30,15 @@ class object_t {
       virtual unique_ptr<concept_t> copy_() const = 0;
       virtual void draw_(ostream&, size_t) const = 0;
     };
-    struct string_model_t final : concept_t {
-      string_model_t(string x) : data_(move(x)) { }
+    template <typename T>
+    struct model final : concept_t {
+      model(T x) : data_(move(x)) { }
       unique_ptr<concept_t> copy_() const override
-      { return make_unique<string_model_t>(*this); }
+      { return make_unique<model>(*this); }
       void draw_(ostream& out, size_t position) const override
       { draw(data_, out, position); }
 
-      string data_;
-    };
-    struct int_model_t final : concept_t {
-      int_model_t(int x) : data_(move(x)) { }
-      unique_ptr<concept_t> copy_() const override
-      { return make_unique<int_model_t>(*this); }
-      void draw_(ostream& out, size_t position) const override
-      { draw(data_, out, position); }
-
-      int data_;
+      T data_;
     };
 
     unique_ptr<concept_t> self_;
