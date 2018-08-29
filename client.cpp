@@ -3,18 +3,11 @@
 #include <iostream>
 using namespace std;
 
-class my_class_t final : public object_t
-{
-  public: 
-    void draw(ostream& out, size_t position) const override
-    { out << string(position, ' ') << "my_class_t" << endl;}
-    /* ... */
-};
-
 int main() {
   document_t document;
-
-  document.emplace_back(make_shared<my_class_t>());
-
+  document.emplace_back(0);
+  document.emplace_back(1);
+  document.emplace_back(2);
+  document.emplace_back(3);
   draw(document, cout, 0); 
 }
