@@ -3,18 +3,16 @@
 #include <iostream>
 using namespace std;
 
-struct some_t {
-    object_t member_;
-};
+int main() {
+  document_t document;
+  document.reserve(5);
 
-some_t func() { return { 5 }; }
+  document.emplace_back(0);
+  document.emplace_back(string("Hello!"));
+  document.emplace_back(2);
+  document.emplace_back(3);
 
-int main() 
-{
-  /*  
-      Quiz: what will this print?
-  */
-  some_t x = { 0 };
+  reverse(document.begin(), document.end());
 
-  x = func();
+  draw(document, cout, 0); 
 }
